@@ -1,11 +1,7 @@
 In this post I am going to talk about how to implement ** filters ** in ** Spring **. Filters are those that can be set when an HTTP request is received. That is, assuming that we have a program listening in some URIs, we can specify that we want to execute something before the requests are processed by the controller.
-
 This is very useful if we want all requests to meet a requirement, for example include a specific header.
-
 To understand how filters work in ** Spring ** I have made a program that I will explain little by little.
-
 You have the source code of the program on [my GITHUB page] (https://github.com/chuchip/SpringFilter)
-
 I'll start by showing the controller for REST requests that is in the `PrincipalController.java` class. This will be in charge of managing all requests.
 
 java
@@ -64,11 +60,8 @@ sillyLog.getMessage ();
 `` ''
 
 The `entryOther` function will capture all the ** GET ** requests that go to some URI that we do not have explicitly defined. In the `entryOne` function, requests of type ** GET ** that go to the URL http: // localhost: 8080 / one or http: // localhost: 8080 / and so on will be processed.
-
 The `sillyLog` class is a class where we will simply add log lines and then return them in the * body * of the response, so that we can see where our request has passed.
-
 Three filters are defined in this application: `MyFilter.java`,` OtherFilter.java` and `CakesFilter.java`. The first takes precedence over the second, as it is thus established in the tag parameter ** @ Order **. Of the third I speak at the end of the article.
-
 In the `MyFilter.java` file we define our first filter.
 
 java
@@ -140,12 +133,10 @@ chain.doFilter (request, response);
 `` ''
 
 The first thing we need to do to define a * general * filter is to tag the class with ** @ Component **. Then we must implement the `Filter` interface. We could also extend the `OncePerRequestFilter` class which implements the` Filter` interface and adds certain functionality so that a filter only runs once per run. In this example we are going to simplify it as much as possible and directly implement the `Filter` interface.
-
 The `Filter` interface has three functions.
-
 - `void init (FilterConfig filterConfig) throws ServletException`
 
-  This function will be executed by the web container. In other words: this function is only executed once, when the component is instantiated by ** Spring **.
+This function will be executed by the web container. In other words: this function is only executed once, when the component is instantiated by ** Spring **.
 
 - `void doFilter (ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException`
 
@@ -183,11 +174,8 @@ I am going to explain step by step the different cases contemplated in the `MyFi
   `` ''
 
   The first line is returned by the `entryTwo` function. The logs added are shown below.
-
   It is best to look at the source code if it is not clear where so many lines come from ;-)
-
 - ** / redirect ** We add a ** PROFE ** header with the value ** REDIRECTED ** to the * response *. Then we specify that a redirect to the `redirected` URL should be included with the` myResponse.sendRedirect` statement. Finally we run the `doFilter` function so the second filter will be processed and the` entryOther` function will be called since we have no defined entry point for * / cancel *.
-
   This is the output that we will have if we make a request with ** curl: **
 
   curl
@@ -306,5 +294,4 @@ I am going to explain step by step the different cases contemplated in the `MyFi
   `` ''
   
   Because of the way ** Spring ** handles its context variables, it is not possible to inject the `SillyLog` object with a ** @ Autowired **. If we inject it we will see how the variable has the value ** null **
-  
   And with this I end this post. Until next time !!
