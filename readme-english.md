@@ -1,6 +1,3 @@
-
-
-4853/5000
 In this post I am going to talk about how to implement ** filters ** in ** Spring **. Filters are those that can be set when an HTTP request is received. That is, assuming that we have a program listening in some URIs, we can specify that we want to execute something before the requests are processed by the controller.
 
 This is very useful if we want all requests to meet a requirement, for example include a specific header.
